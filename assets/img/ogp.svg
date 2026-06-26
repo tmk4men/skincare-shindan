@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" font-family="'Zen Old Mincho', 'Yu Mincho', serif">
+  <rect width="1200" height="630" fill="#FAF6F2"/>
+  <rect x="24" y="24" width="1152" height="582" rx="28" fill="none" stroke="#E4D8CF" stroke-width="2"/>
+
+  <!-- ripple / droplet motif -->
+  <g transform="translate(930,315)" stroke="#6E4253" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle r="190" stroke-width="1.5" opacity=".18"/>
+    <circle r="140" stroke-width="1.5" opacity=".3"/>
+    <circle r="92" stroke-width="1.5" opacity=".45"/>
+    <path d="M0 -150c0 0 58 66 58 116a58 58 0 0 1-116 0c0-50 58-116 58-116Z" stroke-width="3"/>
+    <path d="M-22 -2a22 22 0 0 0 22 22" stroke-width="2.4"/>
+  </g>
+
+  <!-- text -->
+  <text x="96" y="210" font-size="34" letter-spacing="10" fill="#6E4253">SKINCARE BY INGREDIENT</text>
+  <text x="92" y="320" font-size="92" font-weight="600" fill="#322B28">肌悩み別 成分診断</text>
+  <text x="96" y="404" font-size="40" fill="#6E625B" font-family="'Zen Kaku Gothic New','Yu Gothic',sans-serif">「効きそう」より、効く理由で選ぶ。</text>
+
+  <line x1="96" y1="456" x2="470" y2="456" stroke="#E5A498" stroke-width="2"/>
+  <text x="96" y="510" font-size="28" fill="#6E625B" font-family="'Zen Kaku Gothic New','Yu Gothic',sans-serif">皮膚科学の根拠と、研究データ（出典）つき</text>
+</svg>

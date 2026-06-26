@@ -1,0 +1,9 @@
+# 公開しない資料（元記事・ファクトチェックなどの内部メモ）
+ナレッジ/
+
+# OS / エディタ
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+_t.html
