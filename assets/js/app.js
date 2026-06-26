@@ -239,34 +239,84 @@
   /* ---- ルーティング（トップ ⇄ 結果）----------------------------------- */
   const home = document.getElementById("view-home");
   const result = document.getElementById("view-result");
+  const reading = document.getElementById("view-read");
+
+  /* ---- ドロワー（ハンバーガーメニュー）---- */
+  const drawer = document.getElementById("drawer");
+  const burger = document.getElementById("nav-burger");
+  function openDrawer() {
+    if (!drawer) return;
+    drawer.hidden = false;
+    requestAnimationFrame(() => drawer.classList.add("is-open"));
+    if (burger) burger.setAttribute("aria-expanded", "true");
+  }
+  function closeDrawer() {
+    if (!drawer || drawer.hidden) return;
+    drawer.classList.remove("is-open");
+    if (burger) burger.setAttribute("aria-expanded", "false");
+    setTimeout(() => { drawer.hidden = true; }, 280);
+  }
+
+  function hideViews() { result.hidden = true; reading.hidden = true; home.hidden = true; }
 
   function showHome() {
-    result.hidden = true;
-    home.hidden = false;
-    syncCards();
-    syncBar();
+    hideViews(); home.hidden = false;
+    syncCards(); syncBar();
   }
 
   function showResult(ids, push) {
     const list = ids.map((id) => CONCERNS.find((x) => x.id === id)).filter(Boolean);
     if (!list.length) { showHome(); return; }
     result.innerHTML = renderResult(list);
-    home.hidden = true;
-    result.hidden = false;
+    hideViews(); result.hidden = false;
     if (bar) bar.hidden = true;
     window.scrollTo({ top: 0, behavior: "auto" });
     observeReveals(result);
     if (push) history.pushState({ ids }, "", "#c/" + ids.join(","));
   }
 
+  function renderReading() {
+    const articles = READING.map((a) => `
+      <article class="read" id="read-${a.id}">
+        <h2 class="read__title reveal">${nb(a.title)}</h2>
+        <p class="read__lead reveal" data-d="1">${a.lead}</p>
+        <div class="read__body reveal" data-d="2">${a.body}</div>
+      </article>`).join("");
+    return `
+      <div class="narrow">
+        <button class="result-back" type="button" data-back>${ICONS.back}<span>もどる</span></button>
+        <p class="read__eyebrow reveal">読み物</p>
+        ${articles}
+        <button class="result-back result-back--bottom" type="button" data-back>${ICONS.back}<span>診断にもどる</span></button>
+      </div>`;
+  }
+
+  function showReading(anchor, push) {
+    reading.innerHTML = renderReading();
+    hideViews(); reading.hidden = false;
+    if (bar) bar.hidden = true;
+    observeReveals(reading);
+    const target = anchor && document.getElementById("read-" + anchor);
+    if (target) target.scrollIntoView({ behavior: "auto", block: "start" });
+    else window.scrollTo({ top: 0, behavior: "auto" });
+    if (push) history.pushState({ read: anchor || true }, "", "#read" + (anchor ? "/" + anchor : ""));
+  }
+
   function routeFromHash() {
-    const m = location.hash.match(/^#c\/(.+)$/);
-    if (m) showResult(decodeURIComponent(m[1]).split(",").filter(Boolean), false);
+    closeDrawer();
+    const c = location.hash.match(/^#c\/(.+)$/);
+    const r = location.hash.match(/^#read(?:\/(.+))?$/);
+    if (c) showResult(decodeURIComponent(c[1]).split(",").filter(Boolean), false);
+    else if (r) showReading(r[1] ? decodeURIComponent(r[1]) : null, false);
     else showHome();
   }
 
   /* ---- イベント（委譲）------------------------------------------------- */
   document.addEventListener("click", (e) => {
+    if (e.target.closest("#nav-burger")) { openDrawer(); return; }
+    if (e.target.closest("#drawer-close") || e.target.closest("[data-drawer-close]")) { closeDrawer(); return; }
+    if (e.target.closest(".drawer__link")) { closeDrawer(); return; } // #read/* はデフォルトのハッシュ遷移に任せる
+
     const concern = e.target.closest(".concern");
     if (concern) { toggleConcern(concern.dataset.id); return; }
 
@@ -310,12 +360,18 @@
     const jump = e.target.closest("[data-jump]");
     if (jump) {
       e.preventDefault();
-      const t = document.querySelector(jump.getAttribute("href"));
+      closeDrawer();
+      const sel = jump.getAttribute("href");
+      if (home.hidden) { history.replaceState(null, "", location.pathname + location.search); showHome(); }
+      const t = document.querySelector(sel);
       if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
     }
   });
 
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
   window.addEventListener("popstate", routeFromHash);
+  window.addEventListener("hashchange", routeFromHash);
 
   /* ---- ヘッダーのスクロール状態（scrollイベントではなくIntersectionObserver）-- */
   const header = document.querySelector(".site-header");

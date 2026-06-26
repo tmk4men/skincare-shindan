@@ -105,6 +105,44 @@ section { padding-block: var(--section-y); }
   .nav-cta { padding: 0.45rem 0.9rem; font-size: 0.8rem; }
 }
 
+/* ハンバーガー */
+.nav-right { display: flex; align-items: center; gap: 0.6rem; }
+.nav-burger { display: inline-flex; flex-direction: column; justify-content: center; gap: 4px; width: 40px; height: 40px; padding: 0 9px; border-radius: 10px; border: 1px solid var(--line); }
+.nav-burger span { height: 1.5px; background: var(--ink); border-radius: 2px; }
+.nav-burger:hover { border-color: var(--blush); }
+
+/* ドロワー */
+.drawer { position: fixed; inset: 0; z-index: 100; }
+.drawer__overlay { position: absolute; inset: 0; background: rgba(50,43,40,.38); opacity: 0; transition: opacity .28s var(--ease); }
+.drawer.is-open .drawer__overlay { opacity: 1; }
+.drawer__panel {
+  position: absolute; top: 0; right: 0; height: 100%; width: min(82vw, 340px);
+  background: var(--paper); border-left: 1px solid var(--line);
+  box-shadow: -24px 0 70px -34px rgba(50,43,40,.5);
+  padding: 1.2rem 1.4rem 2rem; transform: translateX(100%);
+  transition: transform .3s var(--ease); display: flex; flex-direction: column;
+}
+.drawer.is-open .drawer__panel { transform: translateX(0); }
+.drawer__close { align-self: flex-end; width: 40px; height: 40px; display: grid; place-items: center; color: var(--ink); border-radius: 10px; }
+.drawer__close svg { width: 22px; height: 22px; }
+.drawer__cta { display: inline-flex; align-items: center; justify-content: center; margin: 0.4rem 0 1.5rem; padding: 0.9rem 1rem; background: var(--ink); color: var(--paper); border-radius: 999px; font-size: 0.95rem; letter-spacing: 0.04em; }
+.drawer__cta:hover { background: var(--plum); }
+.drawer__head { font-family: var(--serif); font-size: 0.78rem; letter-spacing: 0.2em; color: var(--plum); text-transform: uppercase; padding-bottom: 0.6rem; border-bottom: 1px solid var(--line); }
+.drawer__link { display: block; padding: 0.95rem 0.2rem; font-size: 1rem; border-bottom: 1px solid var(--line); transition: color .25s var(--ease), padding-left .25s var(--ease); }
+.drawer__link:hover { color: var(--plum); padding-left: 0.5rem; }
+
+/* 読み物ビュー */
+.narrow { width: min(100% - 2.4rem, 720px); margin-inline: auto; }
+.read__eyebrow { font-family: var(--serif); font-size: 0.8rem; letter-spacing: 0.2em; color: var(--plum); text-transform: uppercase; margin: 1.2rem 0 1.8rem; }
+.read { padding-bottom: clamp(2rem,1.4rem+2vw,3rem); margin-bottom: clamp(2rem,1.4rem+2vw,3rem); border-bottom: 1px solid var(--line); scroll-margin-top: 84px; }
+.read:last-of-type { border-bottom: none; }
+.read__title { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem,1.1rem+2vw,2.2rem); line-height: 1.45; }
+.read__lead { margin-top: 0.8rem; color: var(--plum); font-size: 1.05rem; }
+.read__body { margin-top: 1.2rem; }
+.read__body p { margin-bottom: 1rem; }
+.read__body p:last-child { margin-bottom: 0; }
+.read__body strong { color: var(--ink); font-weight: 600; }
+
 /* ============================================================================
  *  Hero
  * ==========================================================================*/
