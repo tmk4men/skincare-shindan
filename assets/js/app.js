@@ -85,7 +85,10 @@
           <h3 class="rec__name">${ing.name}<span class="rec__en">${ing.en}</span></h3>
           <p class="rec__why">${ing.why}</p>
           ${forTags}
-          <a class="rec__buy" href="${buildAmazonLink(p)}" target="_blank" rel="nofollow sponsored noopener" aria-label="${ing.name} を${cta}（新しいタブで開きます）">${cta} ${ICONS.ext}</a>
+          <div class="rec__shop">
+            ${p && p.img ? `<a class="rec__thumb" href="${buildAmazonLink(p)}" target="_blank" rel="nofollow sponsored noopener" tabindex="-1" aria-hidden="true"><img src="${p.img}" alt="" loading="lazy" width="84" height="84" referrerpolicy="no-referrer"></a>` : ""}
+            <a class="rec__buy" href="${buildAmazonLink(p)}" target="_blank" rel="nofollow sponsored noopener" aria-label="${ing.name} を${cta}（新しいタブで開きます）">${cta} ${ICONS.ext}</a>
+          </div>
           <button class="rec__ref" type="button" aria-expanded="false" aria-controls="${id}">くわしく（研究データ・注意点）</button>
           <div class="rec__ev" id="${id}" hidden>
             <p>${ing.evidence}</p>

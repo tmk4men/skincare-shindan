@@ -27,22 +27,22 @@ function buildAmazonLink(p) {
 /* 成分ごとに1枠（特定銘柄は置かず「成分で選ぶ」検索リンク）。
  * キーは INGREDIENTS と対応。実商品にしたい場合は asin と name を入れる。*/
 const PRODUCTS = {
-  niacinamide: { name:"ナイアシンアミド美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4vzmqLe", q:"ナイアシンアミド 美容液", note:"皮脂・毛穴・くすみに。" },
-  hyaluronic:  { name:"ヒアルロン酸 化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/3SuxTgo", q:"ヒアルロン酸 化粧水", note:"水分を抱える保湿の定番。" },
-  ceramide:    { name:"セラミド 化粧水・クリーム", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4vJ2R2Q", q:"セラミド 化粧水", note:"バリアを立て直す。" },
+  niacinamide: { name:"ナイアシンアミド美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:"https://m.media-amazon.com/images/I/31LebBJeAcL._AC_.jpg", url:"https://amzn.to/4vzmqLe", q:"ナイアシンアミド 美容液", note:"皮脂・毛穴・くすみに。" },
+  hyaluronic:  { name:"ヒアルロン酸 化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:"https://m.media-amazon.com/images/I/21--uq9PStL._AC_.jpg", url:"https://amzn.to/3SuxTgo", q:"ヒアルロン酸 化粧水", note:"水分を抱える保湿の定番。" },
+  ceramide:    { name:"セラミド 化粧水・クリーム", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:"https://m.media-amazon.com/images/I/41jnXU2YBrL._AC_.jpg", url:"https://amzn.to/4vJ2R2Q", q:"セラミド 化粧水", note:"バリアを立て直す。" },
   cica:        { name:"CICA（ツボクサ）化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"CICA ツボクサ 化粧水", note:"ゆらいだ肌の鎮静に。" },
-  glycyrrhizin:{ name:"グリチルリチン酸2K 薬用化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:true, asin:null, img:null, url:"https://amzn.to/4w6rO8f", q:"グリチルリチン酸2K 薬用 化粧水", note:"肌荒れ・ニキビ予防に。" },
+  glycyrrhizin:{ name:"グリチルリチン酸2K 薬用化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:true, asin:null, img:"https://m.media-amazon.com/images/I/21Jgxubrv3L._AC_.jpg", url:"https://amzn.to/4w6rO8f", q:"グリチルリチン酸2K 薬用 化粧水", note:"肌荒れ・ニキビ予防に。" },
   squalane:    { name:"スクワランオイル", brand:"成分で選ぶ", cat:"オイル", price:null, otc:false, asin:null, img:null, q:"スクワラン オイル", note:"軽い油分でフタ。" },
   betaine:     { name:"ベタイン 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"ベタイン 化粧水", note:"軽い保湿に。" },
   jojoba_oil:  { name:"ホホバオイル", brand:"成分で選ぶ", cat:"オイル", price:null, otc:false, asin:null, img:null, q:"ホホバオイル 無添加", note:"皮脂バランスに。夜に少量。" },
-  allantoin:   { name:"アラントイン 配合化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4v3yIdJ", q:"アラントイン 化粧水", note:"修復・鎮静に。" },
+  allantoin:   { name:"アラントイン 配合化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:"https://m.media-amazon.com/images/I/314LeU2DAoL._AC_.jpg", url:"https://amzn.to/4v3yIdJ", q:"アラントイン 化粧水", note:"修復・鎮静に。" },
   betaglucan:  { name:"β-グルカン 美容液", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"βグルカン 美容液", note:"赤み・ヒリつきに。" },
   trehalose:   { name:"トレハロース 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"トレハロース 化粧水", note:"うるおいキープ。" },
-  aminoacid:   { name:"アミノ酸 配合化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4uYI3Dw", q:"アミノ酸 化粧水", note:"保水力アップ。" },
-  vitc:        { name:"ビタミンC（誘導体）美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4eMjVOv", q:"ビタミンC 誘導体 美容液", note:"くすみ・毛穴・皮脂に。" },
-  retinol:     { name:"レチノール美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4eIWdCJ", q:"レチノール 美容液", note:"夜・少量から。" },
-  salicylic:   { name:"サリチル酸（BHA）化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4vxudJd", q:"サリチル酸 BHA 化粧水", note:"毛穴・角栓に。" },
-  azelaic:     { name:"アゼライン酸 ジェル", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/3R4CZiX", q:"アゼライン酸 ジェル", note:"ニキビ・赤みに。" },
+  aminoacid:   { name:"アミノ酸 配合化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:"https://m.media-amazon.com/images/I/41SDGDIdllL._AC_.jpg", url:"https://amzn.to/4uYI3Dw", q:"アミノ酸 化粧水", note:"保水力アップ。" },
+  vitc:        { name:"ビタミンC（誘導体）美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:"https://m.media-amazon.com/images/I/31+WklDSh+L._AC_.jpg", url:"https://amzn.to/4eMjVOv", q:"ビタミンC 誘導体 美容液", note:"くすみ・毛穴・皮脂に。" },
+  retinol:     { name:"レチノール美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:"https://m.media-amazon.com/images/I/31ZxIYeX-TL._AC_.jpg", url:"https://amzn.to/4eIWdCJ", q:"レチノール 美容液", note:"夜・少量から。" },
+  salicylic:   { name:"サリチル酸（BHA）化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:"https://m.media-amazon.com/images/I/31+bbCFk5jL._AC_.jpg", url:"https://amzn.to/4vxudJd", q:"サリチル酸 BHA 化粧水", note:"毛穴・角栓に。" },
+  azelaic:     { name:"アゼライン酸 ジェル", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:"https://m.media-amazon.com/images/I/31hV3ozFpdL._AC_.jpg", url:"https://amzn.to/3R4CZiX", q:"アゼライン酸 ジェル", note:"ニキビ・赤みに。" },
   uv:          { name:"日焼け止め（SPF50 / PA++++）", brand:"成分で選ぶ", cat:"日焼け止め", price:null, otc:false, asin:null, img:null, q:"日焼け止め SPF50 PA++++", note:"全悩み共通の土台。" },
 };
 
