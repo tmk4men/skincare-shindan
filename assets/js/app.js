@@ -75,18 +75,17 @@
     const best = i === 0;
     const forTags = (showFor && item.for && item.for.length)
       ? `<div class="rec__for">${item.for.map((f) => `<span>${f}</span>`).join("")}</div>` : "";
+    const direct = !!(p && (p.asin || p.url));
+    const cta = direct ? "Amazonで見る" : "Amazonで探す";
     return `
       <article class="rec reveal${best ? " rec--best" : ""}" data-d="${(i % 4) + 1}">
         <div class="rec__index"><span>${String(i + 1).padStart(2, "0")}</span></div>
         <div class="rec__main">
           ${best ? `<span class="rec__pick">迷ったら、まずこれ</span>` : ""}
-          <header class="rec__head">
-            <h3 class="rec__name">${ing.name}<span class="rec__en">${ing.en}</span></h3>
-            <span class="rec__tag">${ing.tag}</span>
-          </header>
+          <h3 class="rec__name">${ing.name}<span class="rec__en">${ing.en}</span></h3>
           <p class="rec__why">${ing.why}</p>
           ${forTags}
-          ${productCard(p)}
+          <a class="rec__buy" href="${buildAmazonLink(p)}" target="_blank" rel="nofollow sponsored noopener" aria-label="${ing.name} を${cta}（新しいタブで開きます）">${cta} ${ICONS.ext}</a>
           <button class="rec__ref" type="button" aria-expanded="false" aria-controls="${id}">くわしく（研究データ・注意点）</button>
           <div class="rec__ev" id="${id}" hidden>
             <p>${ing.evidence}</p>
@@ -109,8 +108,6 @@
     const recs = [...map.values()];
 
     const blocks = recs.map((item, i) => recBlock(item, i, multi)).join("");
-    const routineArr = multi ? GENERIC_ROUTINE : concerns[0].routine;
-    const routine = routineArr.map((s) => `<li>${s}</li>`).join("");
     const chips = concerns.map((c) => `<span class="rc-chip">${ICONS[c.icon]}${c.label}</span>`).join("");
 
     const headline = multi ? "選んだ悩みに、効く成分を。" : concerns[0].headline;
@@ -136,13 +133,8 @@
         <div class="rc-chips reveal" data-d="1">${chips}</div>
         <p class="result-hero__summary reveal" data-d="1">${summary}</p>
 
-        <div class="result-section reveal" data-d="2">
-          <h3 class="result-subtitle">${nb("まずは、この順番で。")}</h3>
-          <ol class="steps">${routine}</ol>
-        </div>
-
         <div class="result-section">
-          <h3 class="result-subtitle reveal">${nb("合う成分と、選び方。")}</h3>
+          <h3 class="result-subtitle reveal">${nb("あなたに合う成分。")}</h3>
           <div class="recs">${blocks}</div>
         </div>
 
