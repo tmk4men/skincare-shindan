@@ -41,6 +41,9 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; cursor: pointer; background: none; border: none; }
 [hidden] { display: none !important; }
 
+/* キーボード操作時のフォーカスリング（:where で低詳細度に）*/
+:where(a, button):focus-visible { outline: 3px solid var(--plum); outline-offset: 3px; border-radius: 6px; }
+
 p, li, .lede, .result-hero__summary, .sci__a, .rec__why, .rec__caution {
   line-break: strict;
   overflow-wrap: break-word;
@@ -71,6 +74,7 @@ section { padding-block: var(--section-y); }
 .site-header {
   position: sticky; top: 0; z-index: 50;
   backdrop-filter: saturate(1.1) blur(8px);
+  background: var(--paper); /* color-mix 非対応時のフォールバック */
   background: color-mix(in srgb, var(--paper) 82%, transparent);
   border-bottom: 1px solid transparent;
   transition: border-color .4s var(--ease);
@@ -87,6 +91,11 @@ section { padding-block: var(--section-y); }
   transition: background .3s var(--ease), color .3s var(--ease);
 }
 .nav-cta:hover { background: var(--ink); color: var(--paper); }
+@media (max-width: 540px) {
+  .brand small { display: none; }
+  .brand svg { width: 22px; height: 22px; }
+  .nav-cta { padding: 0.45rem 0.9rem; font-size: 0.8rem; }
+}
 
 /* ============================================================================
  *  Hero
@@ -162,7 +171,7 @@ section { padding-block: var(--section-y); }
 }
 .concern:hover, .concern:focus-visible {
   transform: translateY(-4px); border-color: var(--blush);
-  box-shadow: 0 22px 40px -28px rgba(110,66,83,.55); outline: none;
+  box-shadow: 0 22px 40px -28px rgba(110,66,83,.55);
 }
 .concern:hover::after { transform: scaleX(1); }
 .concern__icon { display: block; width: 34px; height: 34px; color: var(--plum); margin-bottom: 0.9rem; }

@@ -46,8 +46,11 @@
       : `<div class="product__art" aria-hidden="true">${productArt(p.cat)}</div>`;
     const price = p.price ? `${yen(p.price)} <small>目安</small>` : `<small>価格はさまざま</small>`;
     const otc = p.otc ? `<span class="otc">医薬部外品</span>` : "";
+    const direct = !!p.asin;
+    const ctaLabel = direct ? "Amazonで見る" : "Amazonで探す";
     return `
-      <a class="product" href="${buildAmazonLink(p)}" target="_blank" rel="nofollow sponsored noopener">
+      <a class="product" href="${buildAmazonLink(p)}" target="_blank" rel="nofollow sponsored noopener"
+         aria-label="${p.name} を ${ctaLabel}（新しいタブで開きます）">
         <div class="product__media">${media}</div>
         <div class="product__body">
           <span class="product__cat">${p.cat}${otc}</span>
@@ -55,9 +58,9 @@
           <span class="product__note">${p.note || ""}</span>
           <span class="product__foot">
             <span class="product__price">${price}</span>
-            <span class="product__cta">Amazonで見る ${ICONS.ext}</span>
+            <span class="product__cta">${ctaLabel} ${ICONS.ext}</span>
           </span>
-          <span class="product__sub">在庫・価格はAmazonでご確認ください</span>
+          <span class="product__sub">${direct ? "在庫・価格はAmazonでご確認ください" : "成分名でAmazon検索を開きます"}</span>
         </div>
       </a>`;
   }
@@ -157,7 +160,7 @@
         <button class="sci__q" type="button" aria-expanded="false" aria-controls="sci-${i}">
           ${s.q}<span class="tog" aria-hidden="true"></span>
         </button>
-        <div class="sci__panel" id="sci-${i}"><div class="sci__a">${s.a}</div></div>
+        <div class="sci__panel" id="sci-${i}" hidden><div class="sci__a">${s.a}</div></div>
       </div>`).join("");
   }
 
@@ -183,6 +186,10 @@
   /* ---- スクロール出現 -------------------------------------------------- */
   let io;
   function observeReveals(root) {
+    if (!("IntersectionObserver" in window)) {
+      (root || document).querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
+      return;
+    }
     if (!io) {
       io = new IntersectionObserver((entries) => {
         entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); } });
@@ -226,7 +233,11 @@
     if (concern) { showResult(concern.dataset.id, true); return; }
 
     if (e.target.closest("[data-back]")) {
-      if (location.hash) history.back(); else showHome();
+      // 直接 #c/xxx へ流入していても外部に戻らないよう、必ずサイト内のホームへ
+      history.replaceState(null, "", location.pathname + location.search);
+      showHome();
+      const d = document.getElementById("diagnose");
+      if (d) d.scrollIntoView({ behavior: "auto", block: "start" });
       return;
     }
 
