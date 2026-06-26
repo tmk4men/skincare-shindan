@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=3">
 </head>
 <body>
 
@@ -65,9 +65,8 @@
           <span class="line"><span>科学で選ぶスキンケア。</span></span>
         </h1>
         <p class="hero__lede">
-          「高い化粧水ほど効く」わけじゃない。<br>
-          あなたの悩みをひとつ選ぶと、根拠のある成分と、<br>
-          それを取り入れやすい市販アイテムを提案します。
+          「高い化粧水ほど効く」は、ウソ。<br>
+          悩みを選ぶと、効く成分と市販アイテムが分かります。
         </p>
         <div class="hero__actions">
           <a class="btn" href="#diagnose" data-jump>
@@ -110,8 +109,8 @@
     <div class="wrap">
       <div class="diagnose__head">
         <span class="eyebrow">Diagnose</span>
-        <h2 class="section-title">いちばん気になる悩みを、ひとつ。</h2>
-        <p>当てはまるものを選ぶだけ。すぐに、合う成分とおすすめアイテムが出ます。</p>
+        <h2 class="section-title">気になる悩みを、選んでください。</h2>
+        <p>当てはまるものを、いくつでも。下のボタンで診断できます。</p>
       </div>
       <div class="concerns" id="concern-grid"><!-- JSで生成 --></div>
     </div>
@@ -124,9 +123,9 @@
         <span class="eyebrow">Foundation</span>
         <h2>どの悩みでも、<br>土台は日焼け止め。</h2>
         <p>
-          シミ・シワ・たるみの最大の原因は、紫外線による“光老化”。<br>
-          どんな成分を足すよりも確実な攻めであり、守り。<br>
-          <strong style="color:var(--paper)">SPF はUVB、PA はUVA</strong> の指標です。朝のケアの最後に、たっぷりと。
+          シミ・シワ・たるみの最大の原因は、紫外線（光老化）。<br>
+          どんな成分より確実な土台です。
+          <strong style="color:var(--paper)">SPFはUVB、PAはUVA</strong>。朝の最後に、たっぷりと。
         </p>
       </div>
       <div class="foundation__art" aria-hidden="true">
@@ -150,6 +149,20 @@
     </div>
   </section>
 
+  <!-- ---------- 複数選択バー ---------- -->
+  <div class="select-bar" id="select-bar" hidden>
+    <div class="wrap select-bar__in">
+      <span class="select-bar__count"><b id="sel-count">0</b> 件の悩みを選択中</span>
+      <div class="select-bar__actions">
+        <button class="select-bar__clear" id="sel-clear" type="button">クリア</button>
+        <button class="btn" id="sel-go" type="button">
+          この悩みで診断する
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
 </div><!-- /#view-home -->
 
 <!-- ============================ RESULT ============================ -->
@@ -166,9 +179,9 @@
     </a>
     <span class="pr-tag">PR・広告を含みます</span>
     <div class="disclaimer">
-      <p>本サイトは Amazonアソシエイト・プログラムの参加者です。商品リンクから購入されると、サイト運営者に紹介料が支払われることがあります。価格・在庫・仕様は変動します。</p>
-      <p>掲載内容は一般的な情報提供であり、医療行為・診断ではありません。成分の効果や感じ方には個人差があり、すべての方への効果を保証するものではありません。新しい製品はパッチテスト（腕の内側に少量を塗り、1〜2日様子を見る）を行ってください。赤み・かゆみ・痛みなどの症状が続く・悪化する場合や、本格的なニキビ・濃いシミなどは、自己判断せず皮膚科を受診してください。</p>
-      <p>「美白」「シワ改善」などの表現は医薬部外品の承認に基づく範囲で用いられるもので、化粧品が病気を治療するものではありません。</p>
+      <p>本サイトはAmazonアソシエイト・プログラムの参加者です。リンクからの購入で、運営者に紹介料が入ることがあります。</p>
+      <p>掲載は一般的な情報で、医療行為・診断ではありません。効果には個人差があります。新しい製品はパッチテスト（腕の内側に少量、1〜2日様子見）を。赤み・かゆみ・痛みが続く・悪化する場合や、本格的なニキビ・濃いシミは皮膚科を受診してください。</p>
+      <p>「美白」「シワ改善」は医薬部外品の承認範囲の表現で、化粧品が病気を治療するものではありません。</p>
     </div>
     <div class="foot-meta">
       <span>&copy; 2026 成分診断</span>
@@ -177,7 +190,7 @@
   </div>
 </footer>
 
-<script src="assets/js/data.js"></script>
-<script src="assets/js/app.js"></script>
+<script src="assets/js/data.js?v=3"></script>
+<script src="assets/js/app.js?v=3"></script>
 </body>
 </html>

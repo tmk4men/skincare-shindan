@@ -1,5 +1,5 @@
 /* ============================================================================
- *  app.js — 描画・診断・アニメーション
+ *  app.js — 描画・診断（複数選択）・アニメーション
  * ==========================================================================*/
 (function () {
   "use strict";
@@ -14,11 +14,11 @@
     sun:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6 19 19M19 5l-1.4 1.4M6.4 17.6 5 19"/></svg>',
     wave:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 13c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M3 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></svg>',
     split: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17"/><path d="M12 8h5M12 12h6M12 16h5" opacity=".5"/></svg>',
-    logo:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 8 8 9.5 8 13a4 4 0 0 0 8 0c0-3.5-4-5-4-10.5Z"/><circle cx="12" cy="13" r="1.1" fill="currentColor" stroke="none"/></svg>',
+    leaf2: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5C12 8 8 9.5 8 13a4 4 0 0 0 8 0c0-3.5-4-5-4-10.5Z"/></svg>',
     arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
     back:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
     ext:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M19 14v5H5V5h5"/></svg>',
-    alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg>',
     cross: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v8M8 12h8"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg>',
   };
 
@@ -65,12 +65,14 @@
       </a>`;
   }
 
-  /* ---- 1つの推奨ブロック（成分 → 商品 → 効能 → 注意点 → ※研究データ）---- */
-  function recBlock(item, i) {
+  /* ---- 1つの推奨ブロック（成分名 → 商品 → 効能 → 注意点 → ※研究データ）-- */
+  function recBlock(item, i, showFor) {
     const ing = INGREDIENTS[item.ing];
     const p = PRODUCTS[item.product];
     const id = `ev-${item.ing}-${i}`;
     const best = i === 0;
+    const forTags = (showFor && item.for && item.for.length)
+      ? `<div class="rec__for">${item.for.map((f) => `<span>${f}</span>`).join("")}</div>` : "";
     return `
       <article class="rec reveal${best ? " rec--best" : ""}" data-d="${(i % 4) + 1}">
         <div class="rec__index"><span>${String(i + 1).padStart(2, "0")}</span></div>
@@ -80,43 +82,57 @@
             <h3 class="rec__name">${ing.name}<span class="rec__en">${ing.en}</span></h3>
             <span class="rec__tag">${ing.tag}</span>
           </header>
-
+          ${forTags}
           ${productCard(p)}
-
           <div class="rec__lines">
             <p class="rec__why"><span class="rec__k">効能</span>${ing.why}</p>
             <p class="rec__caution"><span class="rec__k">注意点</span>${ing.caution}</p>
           </div>
-
-          <button class="rec__ref" type="button" aria-expanded="false" aria-controls="${id}">
-            ※研究データを見る
-          </button>
-          <div class="rec__ev" id="${id}" hidden>
-            <p>${ing.evidence}</p>
-          </div>
+          <button class="rec__ref" type="button" aria-expanded="false" aria-controls="${id}">※研究データを見る</button>
+          <div class="rec__ev" id="${id}" hidden><p>${ing.evidence}</p></div>
         </div>
       </article>`;
   }
 
-  /* ---- 結果ビュー全体 --------------------------------------------------- */
-  function renderResult(c) {
-    const blocks = c.recommend.map(recBlock).join("");
-    const routine = c.routine.map((s) => `<li>${s}</li>`).join("");
-    const clinic = c.clinic
-      ? `<p class="clinic-flag">${ICONS.cross}<span>赤く腫れる・痛い・繰り返すニキビは、市販品より皮膚科の受診を。</span></p>`
-      : "";
+  /* ---- 結果ビュー（1つでも複数でもOK）---------------------------------- */
+  function renderResult(concerns) {
+    const multi = concerns.length > 1;
+
+    // 成分を重複なくまとめ、各成分が「どの悩みに効くか」を集める
+    const map = new Map();
+    concerns.forEach((c) => c.recommend.forEach((r) => {
+      if (!map.has(r.ing)) map.set(r.ing, { ing: r.ing, product: r.product, for: [c.label] });
+      else { const e = map.get(r.ing); if (!e.for.includes(c.label)) e.for.push(c.label); }
+    }));
+    const recs = [...map.values()];
+
+    const blocks = recs.map((item, i) => recBlock(item, i, multi)).join("");
+    const routineArr = multi ? GENERIC_ROUTINE : concerns[0].routine;
+    const routine = routineArr.map((s) => `<li>${s}</li>`).join("");
+    const chips = concerns.map((c) => `<span class="rc-chip">${ICONS[c.icon]}${c.label}</span>`).join("");
+
+    const headline = multi ? "選んだ悩みに、効く成分を。" : concerns[0].headline;
+    const summary = multi
+      ? "効く成分を、重複なくまとめました。気になるものから。"
+      : concerns[0].summary;
+    const badge = multi ? ICONS.leaf2 : ICONS[concerns[0].icon];
+
+    const clinic = concerns.some((c) => c.clinic)
+      ? `<p class="clinic-flag">${ICONS.cross}<span>赤く腫れる・痛い・繰り返すニキビは、市販品より皮膚科の受診を。</span></p>` : "";
+
     return `
       <div class="wrap">
         <button class="result-back" type="button" data-back>${ICONS.back}<span>悩みを選び直す</span></button>
 
         <header class="result-hero reveal">
-          <div class="result-hero__badge">${ICONS[c.icon]}</div>
+          <div class="result-hero__badge">${badge}</div>
           <div>
-            <p class="result-hero__eyebrow">あなたの悩み — ${c.label}</p>
-            <h2 class="result-hero__headline">${c.headline}</h2>
+            <p class="result-hero__eyebrow">あなたの悩み</p>
+            <h2 class="result-hero__headline">${headline}</h2>
           </div>
         </header>
-        <p class="result-hero__summary reveal" data-d="1">${c.summary}</p>
+        <div class="rc-chips reveal" data-d="1">${chips}</div>
+        <p class="result-hero__summary reveal" data-d="1">${summary}</p>
 
         <div class="result-section reveal" data-d="2">
           <p class="eyebrow">Routine</p>
@@ -127,24 +143,25 @@
         <div class="result-section">
           <p class="eyebrow reveal">Ingredients &amp; Picks</p>
           <h3 class="result-subtitle reveal">合う成分と、選び方。</h3>
-          <p class="result-lead reveal">まずは「<b>迷ったら、まずこれ</b>」から。高い物ほど効くわけではありません——続けやすい1本を。各ブロックの<b>※研究データ</b>で根拠（出典）も確認できます。</p>
+          <p class="result-lead reveal">まずは「<b>迷ったら、まずこれ</b>」から。<b>※研究データ</b>で根拠も見られます。</p>
           <div class="recs">${blocks}</div>
         </div>
 
         ${clinic}
 
-        <p class="aff-note reveal">※ 商品リンクは Amazonアソシエイト・プログラムを利用しています（広告）。価格・在庫は変動します。掲載は成分の一例で、効果には個人差があります。</p>
+        <p class="aff-note reveal">※ リンクはAmazonアソシエイト（広告）。価格・在庫は変動し、掲載は成分の一例です。効果には個人差があります。</p>
 
-        <button class="result-back result-back--bottom" type="button" data-back>${ICONS.back}<span>ほかの悩みも見る</span></button>
+        <button class="result-back result-back--bottom" type="button" data-back>${ICONS.back}<span>ほかの悩みも選ぶ</span></button>
       </div>`;
   }
 
-  /* ---- 悩みグリッド（トップ）------------------------------------------- */
+  /* ---- 悩みグリッド（複数選択トグル）----------------------------------- */
   function renderConcerns() {
     const grid = document.getElementById("concern-grid");
     if (!grid) return;
     grid.innerHTML = CONCERNS.map((c, i) => `
-      <button class="concern reveal" data-d="${(i % 4) + 1}" data-id="${c.id}" type="button">
+      <button class="concern reveal" data-d="${(i % 4) + 1}" data-id="${c.id}" type="button" aria-pressed="false">
+        <span class="concern__check" aria-hidden="true">${ICONS.check}</span>
         <span class="concern__icon">${ICONS[c.icon]}</span>
         <span class="concern__label">${c.label}</span>
         <span class="concern__sub">${c.sub}</span>
@@ -171,15 +188,11 @@
       const h = panel.scrollHeight;
       panel.style.height = "0px";
       requestAnimationFrame(() => { panel.style.height = h + "px"; });
-      panel.addEventListener("transitionend", function te() {
-        panel.style.height = "auto"; panel.removeEventListener("transitionend", te);
-      });
+      panel.addEventListener("transitionend", function te() { panel.style.height = "auto"; panel.removeEventListener("transitionend", te); });
     } else {
       panel.style.height = panel.scrollHeight + "px";
       requestAnimationFrame(() => { panel.style.height = "0px"; });
-      panel.addEventListener("transitionend", function te() {
-        panel.hidden = true; panel.removeEventListener("transitionend", te);
-      });
+      panel.addEventListener("transitionend", function te() { panel.hidden = true; panel.removeEventListener("transitionend", te); });
     }
   }
 
@@ -198,6 +211,30 @@
     (root || document).querySelectorAll(".reveal:not(.is-visible)").forEach((el) => io.observe(el));
   }
 
+  /* ---- 選択状態 -------------------------------------------------------- */
+  const selection = new Set();
+  const bar = document.getElementById("select-bar");
+  const countEl = document.getElementById("sel-count");
+
+  function syncCards() {
+    document.querySelectorAll(".concern").forEach((el) => {
+      const on = selection.has(el.dataset.id);
+      el.classList.toggle("is-active", on);
+      el.setAttribute("aria-pressed", String(on));
+    });
+  }
+  function syncBar() {
+    const n = selection.size;
+    if (countEl) countEl.textContent = n;
+    if (bar) bar.hidden = n === 0;
+    document.body.classList.toggle("has-selection", n > 0);
+  }
+  function toggleConcern(id) {
+    if (selection.has(id)) selection.delete(id); else selection.add(id);
+    syncCards();
+    syncBar();
+  }
+
   /* ---- ルーティング（トップ ⇄ 結果）----------------------------------- */
   const home = document.getElementById("view-home");
   const result = document.getElementById("view-result");
@@ -205,35 +242,43 @@
   function showHome() {
     result.hidden = true;
     home.hidden = false;
-    document.body.classList.remove("is-result");
-    document.querySelectorAll(".concern.is-active").forEach((b) => b.classList.remove("is-active"));
+    syncCards();
+    syncBar();
   }
 
-  function showResult(id, push) {
-    const c = CONCERNS.find((x) => x.id === id);
-    if (!c) { showHome(); return; }
-    result.innerHTML = renderResult(c);
+  function showResult(ids, push) {
+    const list = ids.map((id) => CONCERNS.find((x) => x.id === id)).filter(Boolean);
+    if (!list.length) { showHome(); return; }
+    result.innerHTML = renderResult(list);
     home.hidden = true;
     result.hidden = false;
-    document.body.classList.add("is-result");
+    if (bar) bar.hidden = true;
     window.scrollTo({ top: 0, behavior: "auto" });
     observeReveals(result);
-    if (push && location.hash !== "#c/" + id) history.pushState({ id }, "", "#c/" + id);
+    if (push) history.pushState({ ids }, "", "#c/" + ids.join(","));
   }
 
   function routeFromHash() {
     const m = location.hash.match(/^#c\/(.+)$/);
-    if (m) showResult(decodeURIComponent(m[1]), false);
+    if (m) showResult(decodeURIComponent(m[1]).split(",").filter(Boolean), false);
     else showHome();
   }
 
   /* ---- イベント（委譲）------------------------------------------------- */
   document.addEventListener("click", (e) => {
     const concern = e.target.closest(".concern");
-    if (concern) { showResult(concern.dataset.id, true); return; }
+    if (concern) { toggleConcern(concern.dataset.id); return; }
+
+    if (e.target.closest("#sel-go")) {
+      if (selection.size) showResult([...selection], true);
+      return;
+    }
+    if (e.target.closest("#sel-clear")) {
+      selection.clear(); syncCards(); syncBar();
+      return;
+    }
 
     if (e.target.closest("[data-back]")) {
-      // 直接 #c/xxx へ流入していても外部に戻らないよう、必ずサイト内のホームへ
       history.replaceState(null, "", location.pathname + location.search);
       showHome();
       const d = document.getElementById("diagnose");
@@ -261,7 +306,7 @@
       return;
     }
 
-    const jump = e.target.closest('[data-jump]');
+    const jump = e.target.closest("[data-jump]");
     if (jump) {
       e.preventDefault();
       const t = document.querySelector(jump.getAttribute("href"));

@@ -179,6 +179,46 @@ section { padding-block: var(--section-y); }
 .concern__label { display: block; font-family: var(--serif); font-size: 1.06rem; line-height: 1.5; }
 .concern__sub { display: block; font-size: 0.76rem; color: var(--ink-soft); margin-top: 0.25rem; letter-spacing: 0.05em; }
 
+/* 選択状態（複数選択）*/
+.concern__check {
+  position: absolute; top: 0.85rem; right: 0.85rem;
+  width: 1.5rem; height: 1.5rem; border-radius: 50%;
+  background: var(--plum); color: var(--paper); display: grid; place-items: center;
+  opacity: 0; transform: scale(0.6); transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.concern__check svg { width: 0.9rem; height: 0.9rem; }
+.concern.is-active { border-color: var(--plum); background: color-mix(in srgb, var(--blush) 10%, var(--paper)); }
+.concern.is-active::after { transform: scaleX(1); }
+.concern.is-active .concern__check { opacity: 1; transform: scale(1); }
+
+/* 複数選択バー */
+.select-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: saturate(1.1) blur(10px);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -12px 40px -26px rgba(50,43,40,.5);
+  padding-block: 0.8rem; padding-bottom: calc(0.8rem + env(safe-area-inset-bottom));
+}
+.select-bar__in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.select-bar__count { font-size: 0.9rem; color: var(--ink-soft); }
+.select-bar__count b { font-family: var(--serif); font-size: 1.25rem; color: var(--plum); margin-right: 0.15rem; }
+.select-bar__actions { display: flex; align-items: center; gap: 0.9rem; }
+.select-bar__clear { font-size: 0.84rem; color: var(--ink-soft); text-decoration: underline; text-underline-offset: 3px; }
+.select-bar__clear:hover { color: var(--plum); }
+.select-bar .btn { padding: 0.8rem 1.5rem; font-size: 0.92rem; }
+body.has-selection { padding-bottom: 86px; }
+@media (max-width: 520px) {
+  .select-bar__count { font-size: 0.8rem; }
+  .select-bar__in { gap: 0.6rem; }
+  .select-bar .btn { padding: 0.75rem 1.1rem; font-size: 0.86rem; }
+}
+@media (max-width: 380px) {
+  .select-bar__count { display: none; }
+  .select-bar__actions { flex: 1; justify-content: space-between; }
+}
+
 /* ============================================================================
  *  Result view（診断結果ページ）
  * ==========================================================================*/
@@ -200,6 +240,19 @@ section { padding-block: var(--section-y); }
 .result-hero__eyebrow { font-size: 0.78rem; letter-spacing: 0.12em; color: var(--sage); }
 .result-hero__headline { font-family: var(--serif); font-weight: 500; font-size: clamp(1.6rem, 1.1rem + 2.4vw, 2.6rem); line-height: 1.4; margin-top: 0.25rem; }
 .result-hero__summary { margin-top: 1.3rem; max-width: 42em; color: var(--ink); }
+
+/* 選んだ悩みチップ */
+.rc-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.1rem; }
+.rc-chip { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; color: var(--plum);
+  background: color-mix(in srgb, var(--blush) 16%, var(--paper)); border: 1px solid color-mix(in srgb, var(--blush) 40%, transparent);
+  border-radius: 999px; padding: 0.3rem 0.85rem; }
+.rc-chip svg { width: 16px; height: 16px; }
+
+/* 各成分が「どの悩みに効くか」（複数選択時）*/
+.rec__for { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin: 0.1rem 0 0.3rem; }
+.rec__for::before { content: "効く悩み"; font-size: 0.66rem; letter-spacing: 0.06em; color: var(--ink-soft); }
+.rec__for span { font-size: 0.7rem; color: var(--sage); background: color-mix(in srgb, var(--sage) 12%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--sage) 28%, transparent); border-radius: 6px; padding: 0.1rem 0.5rem; }
 
 .result-section { margin-top: clamp(2.4rem, 1.6rem + 3vw, 3.6rem); }
 .result-subtitle { font-family: var(--serif); font-weight: 500; font-size: clamp(1.3rem, 1rem + 1.4vw, 1.85rem); margin-top: 0.4rem; line-height: 1.5; }
