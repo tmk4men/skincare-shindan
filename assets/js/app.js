@@ -70,7 +70,7 @@
   /* ---- 1つの推奨ブロック（成分名 → 商品 → 効能 → 注意点 → ※研究データ）-- */
   function recBlock(item, i, showFor) {
     const ing = INGREDIENTS[item.ing];
-    const p = PRODUCTS[item.product];
+    const p = PRODUCTS[item.ing];
     const id = `ev-${item.ing}-${i}`;
     const best = i === 0;
     const forTags = (showFor && item.for && item.for.length)

@@ -23,24 +23,26 @@ function buildAmazonLink(p) {
  *  cat: 化粧水 / ジェル / 乳液 / オイル / ミスト / 美容液 / 日焼け止め
  *  otc: true で「医薬部外品」バッジ。price: 参考価格（null可）
  * ------------------------------------------------------------------------*/
+/* 成分ごとに1枠（特定銘柄は置かず「成分で選ぶ」検索リンク）。
+ * キーは INGREDIENTS と対応。実商品にしたい場合は asin と name を入れる。*/
 const PRODUCTS = {
-  ipsa_aqua:   { name:"イプサ ザ・タイムR アクア 200ml", brand:"IPSA", cat:"化粧水", price:2770, otc:false, asin:null, img:null, q:"イプサ ザ・タイムR アクア 200ml" },
-  muji_clearcare:{ name:"無印良品 薬用クリアケア化粧水 300mL", brand:"無印良品", cat:"化粧水", price:1690, otc:true, asin:null, img:null, q:"無印良品 薬用クリアケア化粧水 300mL" },
-  orbis_clearful:{ name:"オルビス クリアフル ローション", brand:"ORBIS", cat:"化粧水", price:1650, otc:true, asin:null, img:null, q:"オルビス クリアフル ローション 薬用" },
-  naturie_gel: { name:"ナチュリエ スキンコンディショニングジェル 180g", brand:"ナチュリエ", cat:"ジェル", price:665, otc:false, asin:null, img:null, q:"ナチュリエ スキンコンディショニングジェル 180g" },
-  jojoba:      { name:"SAKURA&NATURAL ゴールデンホホバオイル 300ml", brand:"SAKURA&NATURAL", cat:"オイル", price:2830, otc:false, asin:null, img:null, q:"SAKURA NATURAL ゴールデンホホバオイル 300ml" },
-  curel_lotion3:{ name:"キュレル 潤浸保湿化粧水III（とてもしっとり）150ml", brand:"キュレル", cat:"化粧水", price:1481, otc:true, asin:null, img:null, q:"キュレル 潤浸保湿化粧水III とてもしっとり 150ml" },
-  hadalabo_gokujun:{ name:"肌ラボ 極潤プレミアム ヒアルロン液 170mL", brand:"肌ラボ", cat:"化粧水", price:797, otc:false, asin:null, img:null, q:"肌ラボ 極潤プレミアム ヒアルロン液 170mL" },
-  minon_lotion2:{ name:"ミノン アミノモイスト モイストチャージ ローションII", brand:"MINON", cat:"化粧水", price:1900, otc:false, asin:null, img:null, q:"ミノン アミノモイスト モイストチャージ ローションII もっとしっとり" },
-  laroche_toleriane:{ name:"ラ ロッシュ ポゼ トレリアン 薬用モイスチャーローション 200mL", brand:"La Roche-Posay", cat:"化粧水", price:5060, otc:true, asin:null, img:null, q:"ラロッシュポゼ トレリアン 薬用モイスチャーローション 200mL" },
-  avene_water: { name:"アベンヌ ウォーター 300mL", brand:"Avène", cat:"ミスト", price:1800, otc:false, asin:null, img:null, q:"アベンヌ ウォーター 300mL" },
-  muji_milk:   { name:"無印良品 敏感肌用乳液 しっとり 200mL", brand:"無印良品", cat:"乳液", price:783, otc:false, asin:null, img:null, q:"無印良品 敏感肌用乳液 しっとり 200mL" },
-  /* 成分で選ぶカテゴリ（特定銘柄を断定せず検索で提案）*/
-  vitc:      { name:"ビタミンC（誘導体）美容液", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"ビタミンC 誘導体 美容液" },
-  retinol:   { name:"レチノール美容液", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"レチノール 美容液" },
-  bha:       { name:"サリチル酸（BHA）配合 化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"サリチル酸 BHA 化粧水" },
-  azelaic:   { name:"アゼライン酸 配合ジェル", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"アゼライン酸 ジェル" },
-  sunscreen: { name:"日焼け止め（SPF50 / PA++++）", brand:"成分で選ぶ", cat:"日焼け止め", price:null, otc:false, asin:null, img:null, q:"日焼け止め SPF50 PA++++" },
+  niacinamide: { name:"ナイアシンアミド美容液", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"ナイアシンアミド 美容液", note:"皮脂・毛穴・くすみに。" },
+  hyaluronic:  { name:"ヒアルロン酸 化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"ヒアルロン酸 化粧水", note:"水分を抱える保湿の定番。" },
+  ceramide:    { name:"セラミド 化粧水・クリーム", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"セラミド 化粧水", note:"バリアを立て直す。" },
+  cica:        { name:"CICA（ツボクサ）化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"CICA ツボクサ 化粧水", note:"ゆらいだ肌の鎮静に。" },
+  glycyrrhizin:{ name:"グリチルリチン酸2K 薬用化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:true, asin:null, img:null, q:"グリチルリチン酸2K 薬用 化粧水", note:"肌荒れ・ニキビ予防に。" },
+  squalane:    { name:"スクワランオイル", brand:"成分で選ぶ", cat:"オイル", price:null, otc:false, asin:null, img:null, q:"スクワラン オイル", note:"軽い油分でフタ。" },
+  betaine:     { name:"ベタイン 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"ベタイン 化粧水", note:"軽い保湿に。" },
+  jojoba_oil:  { name:"ホホバオイル", brand:"成分で選ぶ", cat:"オイル", price:null, otc:false, asin:null, img:null, q:"ホホバオイル 無添加", note:"皮脂バランスに。夜に少量。" },
+  allantoin:   { name:"アラントイン 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"アラントイン 化粧水", note:"修復・鎮静に。" },
+  betaglucan:  { name:"β-グルカン 美容液", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"βグルカン 美容液", note:"赤み・ヒリつきに。" },
+  trehalose:   { name:"トレハロース 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"トレハロース 化粧水", note:"うるおいキープ。" },
+  aminoacid:   { name:"アミノ酸 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"アミノ酸 化粧水", note:"保水力アップ。" },
+  vitc:        { name:"ビタミンC（誘導体）美容液", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"ビタミンC 誘導体 美容液", note:"くすみ・毛穴・皮脂に。" },
+  retinol:     { name:"レチノール美容液", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"レチノール 美容液", note:"夜・少量から。" },
+  salicylic:   { name:"サリチル酸（BHA）化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"サリチル酸 BHA 化粧水", note:"毛穴・角栓に。" },
+  azelaic:     { name:"アゼライン酸 ジェル", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"アゼライン酸 ジェル", note:"ニキビ・赤みに。" },
+  uv:          { name:"日焼け止め（SPF50 / PA++++）", brand:"成分で選ぶ", cat:"日焼け止め", price:null, otc:false, asin:null, img:null, q:"日焼け止め SPF50 PA++++", note:"全悩み共通の土台。" },
 };
 
 /* --- ③ 成分マスタ --------------------------------------------------------
