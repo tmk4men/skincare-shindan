@@ -123,7 +123,7 @@ const INGREDIENTS = {
 };
 
 /* 複数選択時の共通スキンケア順（個別ルーティンを統合）*/
-const GENERIC_ROUTINE = ["化粧水でうるおす", "気になる悩みは美容液でケア", "乳液かジェルでフタ", "朝は最後に日焼け止め"];
+const GENERIC_ROUTINE = ["化粧水でうるおす", "気になる悩みは美容液でケア", "乳液かジェルでフタ"];
 
 /* --- ④ 肌悩みマスタ（診断の主役）----------------------------------------
  *  recommend: 表示順。{ ing:成分ID, product:商品ID } を上から繰り返し表示。
@@ -132,14 +132,14 @@ const CONCERNS = [
   { id:"oily", icon:"drop", label:"テカリ・ベタつき", sub:"皮脂が気になる",
     headline:"皮脂は“敵”じゃない。整える。",
     summary:"取りすぎると逆効果。水分を与えて、皮脂バランスを整えるのが近道。",
-    recommend:[ {ing:"niacinamide",product:"ipsa_aqua"}, {ing:"glycyrrhizin",product:"orbis_clearful"}, {ing:"hyaluronic",product:"naturie_gel"}, {ing:"jojoba_oil",product:"jojoba"} ],
-    routine:["化粧水（さっぱり）","軽いジェルで保湿","夜はホホバを少量","朝は日焼け止め"] },
+    recommend:[ {ing:"niacinamide",product:"ipsa_aqua"}, {ing:"glycyrrhizin",product:"orbis_clearful"}, {ing:"hyaluronic",product:"naturie_gel"} ],
+    routine:["化粧水（さっぱり）","軽いジェルで保湿"] },
 
   { id:"dry", icon:"leaf", label:"乾燥・つっぱり", sub:"うるおい不足",
     headline:"水を“入れる”より、“逃がさない”。",
     summary:"大切なのは、与えるより守ること。セラミドで壁を直し、油分でフタを。",
-    recommend:[ {ing:"ceramide",product:"curel_lotion3"}, {ing:"hyaluronic",product:"hadalabo_gokujun"}, {ing:"aminoacid",product:"minon_lotion2"}, {ing:"squalane",product:"jojoba"} ],
-    routine:["化粧水でうるおす","乳液で水分を抱える","オイルでフタ"] },
+    recommend:[ {ing:"ceramide",product:"curel_lotion3"}, {ing:"hyaluronic",product:"hadalabo_gokujun"}, {ing:"aminoacid",product:"minon_lotion2"} ],
+    routine:["化粧水でうるおす","乳液で水分を抱える"] },
 
   { id:"sensitive", icon:"shield", label:"赤み・ヒリつき", sub:"刺激に弱い",
     headline:"足すより、引く。鎮めて、守る。",
@@ -151,7 +151,7 @@ const CONCERNS = [
     headline:"毛穴は、原因で打ち手が変わる。",
     summary:"原因でケアが変わる。皮脂・角栓には整える＋やわらげる、たるみにはハリ成分を。",
     recommend:[ {ing:"niacinamide",product:"muji_clearcare"}, {ing:"vitc",product:"vitc"}, {ing:"salicylic",product:"bha"}, {ing:"retinol",product:"retinol"} ],
-    routine:["化粧水（ナイアシンアミド系）","ビタミンC美容液","保湿で仕上げ","朝は日焼け止め"] },
+    routine:["化粧水（ナイアシンアミド系）","ビタミンC美容液","保湿で仕上げ"] },
 
   { id:"acne", icon:"spark", label:"ニキビ・吹き出物", sub:"繰り返す",
     headline:"炎症は鎮める、詰まりは防ぐ。",
@@ -162,15 +162,15 @@ const CONCERNS = [
 
   { id:"spots", icon:"sun", label:"シミ・くすみ", sub:"明るさが欲しい",
     headline:"“防ぐ”が、いちばん効く美白。",
-    summary:"できたシミより、増やさないことが先。UVケアが土台、その上にビタミンC。",
-    recommend:[ {ing:"uv",product:"sunscreen"}, {ing:"vitc",product:"vitc"}, {ing:"niacinamide",product:"ipsa_aqua"} ],
-    routine:["化粧水","ビタミンC美容液","保湿","朝は日焼け止め（最重要）"] },
+    summary:"できたシミより、増やさないことが先。ビタミンC・ナイアシンアミドで明るさをキープ。",
+    recommend:[ {ing:"vitc",product:"vitc"}, {ing:"niacinamide",product:"ipsa_aqua"} ],
+    routine:["化粧水","ビタミンC美容液","保湿"] },
 
   { id:"aging", icon:"wave", label:"シワ・ハリ不足", sub:"年齢サイン",
     headline:"ハリは、夜つくる。日中は守る。",
     summary:"夜に育て、昼に守る。レチノール・ビタミンCに、UVケアをセットで。",
     recommend:[ {ing:"retinol",product:"retinol"}, {ing:"vitc",product:"vitc"}, {ing:"niacinamide",product:"ipsa_aqua"}, {ing:"ceramide",product:"curel_lotion3"} ],
-    routine:["化粧水","夜はレチノール（少量から）","保湿でフタ","朝は日焼け止め（必須）"] },
+    routine:["化粧水","夜はレチノール（少量から）","保湿でフタ"] },
 
   { id:"combo", icon:"split", label:"混合肌・部分テカリ", sub:"場所で違う",
     headline:"顔は一枚じゃない。部位で替える。",
