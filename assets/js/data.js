@@ -27,7 +27,7 @@ function buildAmazonLink(p) {
 /* 成分ごとに1枠（特定銘柄は置かず「成分で選ぶ」検索リンク）。
  * キーは INGREDIENTS と対応。実商品にしたい場合は asin と name を入れる。*/
 const PRODUCTS = {
-  niacinamide: { name:"ナイアシンアミド美容液", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"ナイアシンアミド 美容液", note:"皮脂・毛穴・くすみに。" },
+  niacinamide: { name:"ナイアシンアミド美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4vzmqLe", q:"ナイアシンアミド 美容液", note:"皮脂・毛穴・くすみに。" },
   hyaluronic:  { name:"ヒアルロン酸 化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"ヒアルロン酸 化粧水", note:"水分を抱える保湿の定番。" },
   ceramide:    { name:"セラミド 化粧水・クリーム", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"セラミド 化粧水", note:"バリアを立て直す。" },
   cica:        { name:"CICA（ツボクサ）化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"CICA ツボクサ 化粧水", note:"ゆらいだ肌の鎮静に。" },
@@ -42,7 +42,7 @@ const PRODUCTS = {
   vitc:        { name:"ビタミンC（誘導体）美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4eMjVOv", q:"ビタミンC 誘導体 美容液", note:"くすみ・毛穴・皮脂に。" },
   retinol:     { name:"レチノール美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4eIWdCJ", q:"レチノール 美容液", note:"夜・少量から。" },
   salicylic:   { name:"サリチル酸（BHA）化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4vxudJd", q:"サリチル酸 BHA 化粧水", note:"毛穴・角栓に。" },
-  azelaic:     { name:"アゼライン酸 ジェル", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"アゼライン酸 ジェル", note:"ニキビ・赤みに。" },
+  azelaic:     { name:"アゼライン酸 ジェル", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/3R4CZiX", q:"アゼライン酸 ジェル", note:"ニキビ・赤みに。" },
   uv:          { name:"日焼け止め（SPF50 / PA++++）", brand:"成分で選ぶ", cat:"日焼け止め", price:null, otc:false, asin:null, img:null, q:"日焼け止め SPF50 PA++++", note:"全悩み共通の土台。" },
 };
 
