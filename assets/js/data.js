@@ -35,10 +35,10 @@ const PRODUCTS = {
   squalane:    { name:"スクワランオイル", brand:"成分で選ぶ", cat:"オイル", price:null, otc:false, asin:null, img:null, q:"スクワラン オイル", note:"軽い油分でフタ。" },
   betaine:     { name:"ベタイン 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"ベタイン 化粧水", note:"軽い保湿に。" },
   jojoba_oil:  { name:"ホホバオイル", brand:"成分で選ぶ", cat:"オイル", price:null, otc:false, asin:null, img:null, q:"ホホバオイル 無添加", note:"皮脂バランスに。夜に少量。" },
-  allantoin:   { name:"アラントイン 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"アラントイン 化粧水", note:"修復・鎮静に。" },
+  allantoin:   { name:"アラントイン 配合化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4v3yIdJ", q:"アラントイン 化粧水", note:"修復・鎮静に。" },
   betaglucan:  { name:"β-グルカン 美容液", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"βグルカン 美容液", note:"赤み・ヒリつきに。" },
   trehalose:   { name:"トレハロース 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"トレハロース 化粧水", note:"うるおいキープ。" },
-  aminoacid:   { name:"アミノ酸 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"アミノ酸 化粧水", note:"保水力アップ。" },
+  aminoacid:   { name:"アミノ酸 配合化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4uYI3Dw", q:"アミノ酸 化粧水", note:"保水力アップ。" },
   vitc:        { name:"ビタミンC（誘導体）美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4eMjVOv", q:"ビタミンC 誘導体 美容液", note:"くすみ・毛穴・皮脂に。" },
   retinol:     { name:"レチノール美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4eIWdCJ", q:"レチノール 美容液", note:"夜・少量から。" },
   salicylic:   { name:"サリチル酸（BHA）化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4vxudJd", q:"サリチル酸 BHA 化粧水", note:"毛穴・角栓に。" },
@@ -144,7 +144,7 @@ const CONCERNS = [
   { id:"sensitive", icon:"shield", label:"赤み・ヒリつき", sub:"刺激に弱い",
     headline:"足すより、引く。鎮めて、守る。",
     summary:"修復と鎮静が最優先。成分は盛らず、低刺激でシンプルに。",
-    recommend:[ {ing:"glycyrrhizin",product:"minon_lotion2"}, {ing:"allantoin",product:"laroche_toleriane"}, {ing:"ceramide",product:"curel_lotion3"}, {ing:"betaglucan",product:"avene_water"} ],
+    recommend:[ {ing:"glycyrrhizin",product:"minon_lotion2"}, {ing:"allantoin",product:"laroche_toleriane"}, {ing:"ceramide",product:"curel_lotion3"} ],
     routine:["低刺激の化粧水","乳液かジェルでシンプルに","刺激の強い成分は控える"] },
 
   { id:"pores", icon:"circle", label:"毛穴の開き・黒ずみ", sub:"ザラつき・凹凸",
@@ -175,7 +175,7 @@ const CONCERNS = [
   { id:"combo", icon:"split", label:"混合肌・部分テカリ", sub:"場所で違う",
     headline:"顔は一枚じゃない。部位で替える。",
     summary:"全顔同じより、部位で強弱を。乾く所は守り、テカる所は軽く。",
-    recommend:[ {ing:"niacinamide",product:"ipsa_aqua"}, {ing:"hyaluronic",product:"naturie_gel"}, {ing:"ceramide",product:"muji_milk"}, {ing:"betaine",product:"muji_clearcare"} ],
+    recommend:[ {ing:"niacinamide",product:"ipsa_aqua"}, {ing:"hyaluronic",product:"naturie_gel"}, {ing:"ceramide",product:"muji_milk"} ],
     routine:["化粧水を全体に","頬など乾く所は乳液","Tゾーンは軽いジェル"] },
 ];
 
