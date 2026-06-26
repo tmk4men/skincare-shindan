@@ -28,10 +28,10 @@ function buildAmazonLink(p) {
  * キーは INGREDIENTS と対応。実商品にしたい場合は asin と name を入れる。*/
 const PRODUCTS = {
   niacinamide: { name:"ナイアシンアミド美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4vzmqLe", q:"ナイアシンアミド 美容液", note:"皮脂・毛穴・くすみに。" },
-  hyaluronic:  { name:"ヒアルロン酸 化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"ヒアルロン酸 化粧水", note:"水分を抱える保湿の定番。" },
-  ceramide:    { name:"セラミド 化粧水・クリーム", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"セラミド 化粧水", note:"バリアを立て直す。" },
+  hyaluronic:  { name:"ヒアルロン酸 化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/3SuxTgo", q:"ヒアルロン酸 化粧水", note:"水分を抱える保湿の定番。" },
+  ceramide:    { name:"セラミド 化粧水・クリーム", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4vJ2R2Q", q:"セラミド 化粧水", note:"バリアを立て直す。" },
   cica:        { name:"CICA（ツボクサ）化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"CICA ツボクサ 化粧水", note:"ゆらいだ肌の鎮静に。" },
-  glycyrrhizin:{ name:"グリチルリチン酸2K 薬用化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:true, asin:null, img:null, q:"グリチルリチン酸2K 薬用 化粧水", note:"肌荒れ・ニキビ予防に。" },
+  glycyrrhizin:{ name:"グリチルリチン酸2K 薬用化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:true, asin:null, img:null, url:"https://amzn.to/4w6rO8f", q:"グリチルリチン酸2K 薬用 化粧水", note:"肌荒れ・ニキビ予防に。" },
   squalane:    { name:"スクワランオイル", brand:"成分で選ぶ", cat:"オイル", price:null, otc:false, asin:null, img:null, q:"スクワラン オイル", note:"軽い油分でフタ。" },
   betaine:     { name:"ベタイン 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"ベタイン 化粧水", note:"軽い保湿に。" },
   jojoba_oil:  { name:"ホホバオイル", brand:"成分で選ぶ", cat:"オイル", price:null, otc:false, asin:null, img:null, q:"ホホバオイル 無添加", note:"皮脂バランスに。夜に少量。" },
