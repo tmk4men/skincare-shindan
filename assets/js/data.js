@@ -12,6 +12,7 @@
 const AFFILIATE_TAG = "PLACEHOLDER-22"; // ← ここをあなたのIDに
 
 function buildAmazonLink(p) {
+  if (p.url) return p.url;                  // 本人のアフィリ短縮リンク（amzn.to等）をそのまま使用
   if (p.asin) return `https://www.amazon.co.jp/dp/${p.asin}/?tag=${AFFILIATE_TAG}`;
   return `https://www.amazon.co.jp/s?k=${encodeURIComponent(p.q || p.name)}&tag=${AFFILIATE_TAG}`;
 }
@@ -38,9 +39,9 @@ const PRODUCTS = {
   betaglucan:  { name:"β-グルカン 美容液", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"βグルカン 美容液", note:"赤み・ヒリつきに。" },
   trehalose:   { name:"トレハロース 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"トレハロース 化粧水", note:"うるおいキープ。" },
   aminoacid:   { name:"アミノ酸 配合化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"アミノ酸 化粧水", note:"保水力アップ。" },
-  vitc:        { name:"ビタミンC（誘導体）美容液", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"ビタミンC 誘導体 美容液", note:"くすみ・毛穴・皮脂に。" },
-  retinol:     { name:"レチノール美容液", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"レチノール 美容液", note:"夜・少量から。" },
-  salicylic:   { name:"サリチル酸（BHA）化粧水", brand:"成分で選ぶ", cat:"化粧水", price:null, otc:false, asin:null, img:null, q:"サリチル酸 BHA 化粧水", note:"毛穴・角栓に。" },
+  vitc:        { name:"ビタミンC（誘導体）美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4eMjVOv", q:"ビタミンC 誘導体 美容液", note:"くすみ・毛穴・皮脂に。" },
+  retinol:     { name:"レチノール美容液", brand:"おすすめ", cat:"美容液", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4eIWdCJ", q:"レチノール 美容液", note:"夜・少量から。" },
+  salicylic:   { name:"サリチル酸（BHA）化粧水", brand:"おすすめ", cat:"化粧水", price:null, otc:false, asin:null, img:null, url:"https://amzn.to/4vxudJd", q:"サリチル酸 BHA 化粧水", note:"毛穴・角栓に。" },
   azelaic:     { name:"アゼライン酸 ジェル", brand:"成分で選ぶ", cat:"美容液", price:null, otc:false, asin:null, img:null, q:"アゼライン酸 ジェル", note:"ニキビ・赤みに。" },
   uv:          { name:"日焼け止め（SPF50 / PA++++）", brand:"成分で選ぶ", cat:"日焼け止め", price:null, otc:false, asin:null, img:null, q:"日焼け止め SPF50 PA++++", note:"全悩み共通の土台。" },
 };

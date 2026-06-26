@@ -46,9 +46,9 @@
     const media = p.img
       ? `<img src="assets/img/${p.img}" alt="${p.name}" loading="lazy" width="160" height="160">`
       : `<div class="product__art" aria-hidden="true">${productArt(p.cat)}</div>`;
-    const price = p.price ? `${yen(p.price)} <small>目安</small>` : `<small>価格はさまざま</small>`;
+    const direct = !!(p.asin || p.url);
+    const price = p.price ? `${yen(p.price)} <small>目安</small>` : (direct ? `<small>Amazonで確認</small>` : `<small>価格はさまざま</small>`);
     const otc = p.otc ? `<span class="otc">医薬部外品</span>` : "";
-    const direct = !!p.asin;
     const ctaLabel = direct ? "Amazonで見る" : "Amazonで探す";
     return `
       <a class="product" href="${buildAmazonLink(p)}" target="_blank" rel="nofollow sponsored noopener"
