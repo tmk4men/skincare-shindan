@@ -135,7 +135,6 @@
         <p class="result-hero__summary reveal" data-d="1">${summary}</p>
 
         <div class="result-section reveal" data-d="2">
-          <p class="eyebrow">Routine</p>
           <h3 class="result-subtitle">まずは、この順番で。</h3>
           <ol class="steps">${routine}</ol>
         </div>
@@ -316,10 +315,17 @@
 
   window.addEventListener("popstate", routeFromHash);
 
-  /* ---- ヘッダーのスクロール状態 ---------------------------------------- */
+  /* ---- ヘッダーのスクロール状態（scrollイベントではなくIntersectionObserver）-- */
   const header = document.querySelector(".site-header");
-  const onScroll = () => header && header.classList.toggle("is-scrolled", window.scrollY > 8);
-  window.addEventListener("scroll", onScroll, { passive: true });
+  if (header) {
+    const sentinel = document.createElement("div");
+    sentinel.setAttribute("aria-hidden", "true");
+    sentinel.style.cssText = "position:absolute;top:0;left:0;width:1px;height:8px;pointer-events:none";
+    document.body.prepend(sentinel);
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([e]) => header.classList.toggle("is-scrolled", !e.isIntersecting), { threshold: 0 }).observe(sentinel);
+    }
+  }
 
   /* ---- ヒーローのタイトル行アニメ -------------------------------------- */
   function animateHero() {
@@ -336,7 +342,6 @@
   renderConcerns();
   renderScience();
   observeReveals();
-  onScroll();
   animateHero();
   routeFromHash();
 })();
