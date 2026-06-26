@@ -38,6 +38,8 @@
   }
 
   const yen = (n) => "¥" + n.toLocaleString("ja-JP");
+  // 和文を句読点（、。）の塊に分け、途中で折り返させない
+  const nb = (t) => t.split(/(?<=[、。])/).filter(Boolean).map((s) => `<span class="nb">${s}</span>`).join("");
 
   /* ---- 商品カード -------------------------------------------------------- */
   function productCard(p) {
@@ -82,14 +84,14 @@
             <h3 class="rec__name">${ing.name}<span class="rec__en">${ing.en}</span></h3>
             <span class="rec__tag">${ing.tag}</span>
           </header>
+          <p class="rec__why">${ing.why}</p>
           ${forTags}
           ${productCard(p)}
-          <div class="rec__lines">
-            <p class="rec__why"><span class="rec__k">効能</span>${ing.why}</p>
-            <p class="rec__caution"><span class="rec__k">注意点</span>${ing.caution}</p>
+          <button class="rec__ref" type="button" aria-expanded="false" aria-controls="${id}">くわしく（研究データ・注意点）</button>
+          <div class="rec__ev" id="${id}" hidden>
+            <p>${ing.evidence}</p>
+            <p class="rec__ev-caution">注意：${ing.caution}</p>
           </div>
-          <button class="rec__ref" type="button" aria-expanded="false" aria-controls="${id}">※研究データを見る</button>
-          <div class="rec__ev" id="${id}" hidden><p>${ing.evidence}</p></div>
         </div>
       </article>`;
   }
@@ -128,27 +130,27 @@
           <div class="result-hero__badge">${badge}</div>
           <div>
             <p class="result-hero__eyebrow">あなたの悩み</p>
-            <h2 class="result-hero__headline">${headline}</h2>
+            <h2 class="result-hero__headline">${nb(headline)}</h2>
           </div>
         </header>
         <div class="rc-chips reveal" data-d="1">${chips}</div>
         <p class="result-hero__summary reveal" data-d="1">${summary}</p>
 
         <div class="result-section reveal" data-d="2">
-          <h3 class="result-subtitle">まずは、この順番で。</h3>
+          <h3 class="result-subtitle">${nb("まずは、この順番で。")}</h3>
           <ol class="steps">${routine}</ol>
         </div>
 
         <div class="result-section">
-          <p class="eyebrow reveal">Ingredients &amp; Picks</p>
-          <h3 class="result-subtitle reveal">合う成分と、選び方。</h3>
-          <p class="result-lead reveal">まずは「<b>迷ったら、まずこれ</b>」から。<b>※研究データ</b>で根拠も見られます。</p>
+          <h3 class="result-subtitle reveal">${nb("合う成分と、選び方。")}</h3>
           <div class="recs">${blocks}</div>
         </div>
 
         ${clinic}
 
-        <p class="aff-note reveal">※ リンクはAmazonアソシエイト（広告）。価格・在庫は変動し、掲載は成分の一例です。効果には個人差があります。</p>
+        <footer class="result-note reveal">
+          <p>※ リンクはAmazon（広告）。効果には個人差があります。</p>
+        </footer>
 
         <button class="result-back result-back--bottom" type="button" data-back>${ICONS.back}<span>ほかの悩みも選ぶ</span></button>
       </div>`;
@@ -290,7 +292,7 @@
       const panel = document.getElementById(ref.getAttribute("aria-controls"));
       const open = ref.getAttribute("aria-expanded") === "false";
       ref.setAttribute("aria-expanded", String(open));
-      ref.textContent = open ? "※研究データを閉じる" : "※研究データを見る";
+      ref.textContent = open ? "閉じる" : "くわしく（研究データ・注意点）";
       toggleHeight(panel, open);
       return;
     }

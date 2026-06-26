@@ -51,6 +51,14 @@ p, li, .lede, .result-hero__summary, .sci__a, .rec__why, .rec__caution {
 }
 h1, h2, h3, .hero__title { text-wrap: balance; }
 
+/* 和文の改行を整える -------------------------------------------------------
+ * .nb = 句読点ごとの“塊”。途中で折り返さず、塊の境目で改行する（全ブラウザ対応）*/
+.nb { display: inline-block; }
+.section-title, .result-hero__headline, .result-subtitle, .rec__name,
+.concern__label, .diagnose__head p, .foundation h2, .rc-chip, .product__name {
+  word-break: auto-phrase;     /* 対応ブラウザでは文節で折り返す */
+}
+
 /* --- layout ------------------------------------------------------------ */
 .wrap { width: min(100% - 2.4rem, 1080px); margin-inline: auto; }
 section { padding-block: var(--section-y); }
@@ -297,16 +305,14 @@ body.has-selection { padding-bottom: 86px; }
 .rec__en { font-family: var(--sans); font-size: 0.7rem; color: var(--ink-soft); letter-spacing: 0.04em; font-weight: 400; }
 .rec__tag { margin-left: auto; font-size: 0.7rem; color: var(--sage); border: 1px solid color-mix(in srgb, var(--sage) 40%, transparent); border-radius: 999px; padding: 0.05rem 0.6rem; white-space: nowrap; }
 
-.rec__lines { margin-top: 0.2rem; }
-.rec__why, .rec__caution { font-size: 0.92rem; display: flex; gap: 0.7rem; }
-.rec__caution { color: var(--ink-soft); margin-top: 0.55rem; }
-.rec__k { flex: none; font-size: 0.68rem; letter-spacing: 0.06em; color: var(--plum); border: 1px solid var(--line); border-radius: 6px; padding: 0.05rem 0.45rem; height: fit-content; margin-top: 0.4rem; }
-.rec__caution .rec__k { color: var(--sage); }
+.rec__why { margin-top: 0.55rem; font-size: 1rem; color: var(--ink); }
 
 .rec__ref { margin-top: 1rem; font-size: 0.8rem; color: var(--plum); letter-spacing: 0.03em; border-bottom: 1px dashed color-mix(in srgb, var(--plum) 50%, transparent); padding-bottom: 2px; }
 .rec__ref:hover { border-bottom-style: solid; }
 .rec__ev { overflow: hidden; height: 0; transition: height .4s var(--ease); }
 .rec__ev p { margin-top: 0.85rem; font-size: 0.84rem; line-height: 1.85; color: var(--ink-soft); background: var(--paper-2); border-left: 2px solid var(--blush); border-radius: 0 10px 10px 0; padding: 0.9rem 1.1rem; }
+.rec__ev-caution { border-left-color: var(--sage) !important; }
+.rec__ev-caution::first-line { font-weight: 600; }
 
 @media (max-width: 520px) {
   .rec { grid-template-columns: 1fr; }
@@ -357,6 +363,8 @@ body.has-selection { padding-bottom: 86px; }
 }
 .clinic-flag svg { flex: none; width: 20px; height: 20px; }
 .aff-note { margin-top: 1.6rem; font-size: 0.74rem; color: var(--ink-soft); max-width: 46em; }
+.result-note { margin-top: 2.4rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+.result-note p { font-size: 0.74rem; color: var(--ink-soft); }
 
 /* ============================================================================
  *  共通の土台（UV）
